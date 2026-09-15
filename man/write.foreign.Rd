@@ -39,10 +39,10 @@ For \code{package="SAS"} there are optional arguments
 name, \code{validvarname} taking either \code{"V6"} or \code{"V7"},
 and \code{libpath = NULL} taking a string that will be the directory where
 the target SAS datset will be written when the generated SAS code been
-run. There is also an argument \code{label} taking on either \code{FALSE}
-or \code{TRUE} to indicate whether the label attributes of variables should be
-used as variable labels in SAS. A label attribute is ignored for usage in SAS
-if it is \code{NA} or blank.
+run.  There is also an argument \code{label} taking either \code{FALSE}
+(default) or \code{TRUE}, indicating whether the \code{"label"} attributes
+of the variables should be used as the variable labels in SAS.  A
+\code{"label"} attribute is ignored if it is \code{NA} or blank.
 
 
 For \code{package="SPSS"} there is an optional argument \code{maxchars = 32L} 

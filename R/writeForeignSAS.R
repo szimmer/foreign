@@ -45,7 +45,7 @@ make.SAS.formats <- function(varnames){
 
 writeForeignSAS <- function(df, datafile, codefile, dataname = "rdata",
                           validvarname = c("V7", "V6"), libpath = NULL,
-                        label=FALSE)
+                          label = FALSE)
 {
     ## FIXME: re-write this to hold a connection open
     factors <- vapply(df, is.factor, NA)
@@ -139,21 +139,20 @@ writeForeignSAS <- function(df, datafile, codefile, dataname = "rdata",
 
     cat("\n;\n", file = codefile, append = TRUE)
 
-    if (!label){
+    if (!label) {
         for(v in 1L:ncol(df))
             if (varnames[v] != names(varnames)[v])
                 cat("LABEL ", varnames[v],"=", adQuote(varlabels[v]), ";\n",
                     file = codefile, append = TRUE)
-    } else{
+    } else {
         labsattr <- unlist(sapply(df, attr, "label"))
-        if (length(labsattr) > 0){
+        if (length(labsattr) > 0L)
             for(l in seq_along(labsattr))
-                if (!is.na(labsattr[l]) && nzchar(trimws(labsattr[l]))){
+                if (!is.na(labsattr[l]) && nzchar(trimws(labsattr[l]))) {
                     vn <- which(names(labsattr[l]) == names(df))
                     cat("LABEL ", varnames[vn],"=", adQuote(labsattr[l]), ";\n",
                         file = codefile, append = TRUE)
                 }
-        }
     }
 
     if (any(factors))

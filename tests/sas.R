@@ -16,6 +16,28 @@ writeLines(sasCodes <- readLines(ti))
 stopifnot(identical(" name $ 6",
                     grep(" name ", sasCodes, value=TRUE)))
 
+## 'label = TRUE' uses the "label" attributes of the variables as the SAS
+## variable labels; an NA or blank "label" attribute is ignored
+dl <- data.frame(x = 1:3, y = c("a", "b", "c"), z = c(2.5, 3.5, 4.5))
+attr(dl$x, "label") <- "First variable"
+attr(dl$y, "label") <- NA_character_
+attr(dl$z, "label") <- "   "
+write.foreign(dl, datafile = tfSi, codefile = ti, package = "SAS", label = TRUE)
+writeLines(sasCode3 <- readLines(ti))
+stopifnot(identical('LABEL  x = "First variable" ;',
+                    grep("^LABEL", sasCode3, value=TRUE)))
+
+## the default, 'label = FALSE', ignores the "label" attributes
+write.foreign(dl, datafile = tfSi, codefile = ti, package = "SAS")
+writeLines(sasCode4 <- readLines(ti))
+stopifnot(length(grep("^LABEL", sasCode4)) == 0L)
+
+## 'label = TRUE' when no variable has a "label" attribute
+dl2 <- data.frame(a = c("x", "y"), b = 1:2)
+write.foreign(dl2, datafile = tfSi, codefile = ti, package = "SAS", label = TRUE)
+writeLines(sasCode5 <- readLines(ti))
+stopifnot(length(grep("^LABEL", sasCode5)) == 0L)
+
 ## This site was unresponsive in Jan 2014
 if(!nzchar(Sys.getenv("R_FOREIGN_FULL_TEST"))) q("no")
 tfile <- "int1982ag.zip"
