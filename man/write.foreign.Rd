@@ -29,17 +29,23 @@ eg Systat, create a function \code{writeForeignSystat} with the same first
 three arguments as \code{write.foreign}. This will be called from
 \code{write.foreign} when \code{package="Systat"}.
 
-Numeric variables and factors are supported for all packages: dates and
-times (\code{Date}, \code{dates}, \code{date}, and \code{POSIXt}
-classes) and logical vectors are also supported for SAS and characters
+Numeric variables and factors are supported for all packages: logicals,
+characters, dates and
+times (\code{Date}, \code{dates}, \code{date}, \code{times},
+and \code{POSIXt} classes) are also supported for SAS and characters
 are supported for SPSS.
 
-For \code{package="SAS"} there are optional arguments
+For \code{package="SAS"} there are optional arguments: 
 \code{dataname = "rdata"} taking a string that will be the SAS data set
-name, \code{validvarname} taking either \code{"V6"} or \code{"V7"},
+name; \code{validvarname} taking one of \code{"ANY"}, \code{"V6"} or \code{"V7"};
+\code{validfmtname} taking one of \code{"LONG"} or \code{"V6"};
+\code{validmemname} taking one of \code{"COMPATIBLE"}, \code{"EXTEND"}, or \code{"V6"};
 and \code{libpath = NULL} taking a string that will be the directory where
-the target SAS datset will be written when the generated SAS code been
-run.
+the target SAS datset will be written when the generated SAS code is
+run.  When \code{libpath} is supplied then \code{libref} (default \code{"Routput"}) will
+be used to name the libref. When \code{datafile} is \code{"DATALINES"} or \code{"CARDS"}
+then instead of writing a separate data file the data lines will be appended to 
+the data step in the codefile.
 
 
 For \code{package="SPSS"} there is an optional argument \code{maxchars = 32L} 
